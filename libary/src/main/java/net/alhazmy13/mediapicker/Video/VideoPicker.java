@@ -15,19 +15,21 @@ public class VideoPicker {
 
     public static final int VIDEO_PICKER_REQUEST_CODE = 53213;
     public static final String EXTRA_VIDEO_PATH = "EXTRA_VIDEO_PATH";
-
-    VideoPicker(VideoPicker.Builder builder) {
+    private final Intent callingIntent;
+    private VideoPicker(VideoPicker.Builder builder) {
 
         // Required
         WeakReference<Activity> context = builder.context;
 
         // Optional
         VideoConfig imageConfig = builder.imageConfig;
-        Intent callingIntent = VideoActivity.getCallingIntent(context.get(), imageConfig);
+        callingIntent = VideoActivity.getCallingIntent(context.get(), imageConfig);
 
-        context.get().startActivityForResult(callingIntent, VIDEO_PICKER_REQUEST_CODE);
+
     }
-
+    public Intent getIntent(){
+        return callingIntent;
+    }
 
     public static class Builder implements VideoPickerBuilderBase {
 

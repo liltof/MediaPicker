@@ -18,6 +18,7 @@ import net.alhazmy13.mediapicker.Video.VideoPicker;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static net.alhazmy13.mediapicker.Video.VideoPicker.VIDEO_PICKER_REQUEST_CODE;
 
 /**
  * Created by alhazmy13 on 3/13/17.
@@ -57,12 +58,12 @@ public class VideoFragment extends Fragment {
 
 
     private void pickVideo() {
-        new VideoPicker.Builder(getActivity())
+        startActivityForResult(new VideoPicker.Builder(getActivity())
                 .mode(VideoPicker.Mode.CAMERA_AND_GALLERY)
                 .directory(VideoPicker.Directory.DEFAULT)
                 .extension(VideoPicker.Extension.MP4)
                 .enableDebuggingMode(true)
-                .build();
+                .build().getIntent(), VIDEO_PICKER_REQUEST_CODE);;
     }
 
     //
@@ -70,7 +71,7 @@ public class VideoFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
-        if (requestCode == VideoPicker.VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == VIDEO_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             mPath = data.getStringArrayListExtra(VideoPicker.EXTRA_VIDEO_PATH);
             loadVideo();
         }
